@@ -24,7 +24,7 @@
             android:exported="true"
             tools:ignore="ExportedService" />
         -->
-        <receiver android:name="com.uni.ailab.scp.receiver.SCPPublicReceiver" >
+        <receiver android:name=".receiver.ScpPublicReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
