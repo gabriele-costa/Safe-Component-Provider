@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 public class Configuration extends ArrayList<Stack> {
 
-
+    private static int[] getClauses(Frame newframe) {
+        return new int[0];
+    }
 
 }
