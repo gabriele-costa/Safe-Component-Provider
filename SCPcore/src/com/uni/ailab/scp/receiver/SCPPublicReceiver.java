@@ -72,11 +72,6 @@ public class SCPPublicReceiver extends BroadcastReceiver
 	 *            : la politica di sicurezza associata alla componente;
 	 * @param scope
 	 *            : local global o sticky;
-	 * @param uri
-	 *            : campo dedicato ai content provider. Sostituisce il campo
-	 *            action, non popolabile in fase di installazione in quanto i
-	 *            campi intent-filter non restano accessibili (richiedono un
-	 *            parser xml per interpretare il manifest
 	 * @return
 	 */
 	public static native int insert(String packageName, String className,

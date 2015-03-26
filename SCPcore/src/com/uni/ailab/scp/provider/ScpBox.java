@@ -15,7 +15,7 @@ public class ScpBox
 
 	public ScpBox()
 	{
-		policyMap = new SparseArray<>();
+		policyMap = new SparseArray();
 	}
 
 	public void addPolicy(int componentId, ScpPolicy policy)
