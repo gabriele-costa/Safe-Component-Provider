@@ -1,8 +1,10 @@
 package com.uni.ailab.scp.receiver;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
 import android.util.Log;
 
 public class SQLiteHelper extends SQLiteOpenHelper {
@@ -10,6 +12,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     public static final String TABLE_COMPONENTS = "components";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_NAME = "name";
+    public static final String COLUMN_ACTION = "action";
+    public static final String COLUMN_SCHEME = "scheme";
     public static final String COLUMN_TYPE = "type";
     public static final String COLUMN_POLICIES = "policies";
     public static final String COLUMN_PERMISSIONS = "permissions";
@@ -42,6 +46,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                         + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_COMPONENTS);
         onCreate(db);
+    }
+
+    public Cursor getReceivers(String action, Uri data) {
+        SQLiteDatabase database = getReadableDatabase();
+
+        Cursor cursor = database.query(TABLE_COMPONENTS,
+                new String[] {COLUMN_ID, COLUMN_NAME, COLUMN_PERMISSIONS, COLUMN_POLICIES},
+                null, new String[] {COLUMN_ACTION +" = "+action}, null, null, null);
+
+
+        // TODO: should check Uri scheme
+
+        return cursor;
     }
 
 } 

@@ -15,13 +15,12 @@ import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ProviderInfo;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 
-import org.sat4j.minisat.SolverFactory;
-import org.sat4j.specs.ContradictionException;
-import org.sat4j.specs.ISolver;
 
 public class ScpPublicReceiver extends BroadcastReceiver
 {
@@ -35,6 +34,9 @@ public class ScpPublicReceiver extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+        /*
+        TODO: should check intent authenticity
+         */
 
         /*
         Open DB if not yet initialized
@@ -45,26 +47,19 @@ public class ScpPublicReceiver extends BroadcastReceiver
         /*
         Parse the request
          */
-        intent.getStringExtra("sender");
-
-
-        /*
-        Retrieve components, permissions and policies from the DB
-         */
+        String component = intent.getStringExtra("scp.sender");
+        String action = intent.getStringExtra("scp.action");
+        Uri data = intent.getData();
 
         /*
-        Encode the clauses
+        Retrieve receiver(s)
          */
+        Cursor receivers = dbHelper.getReceivers(action, data);
 
-
-        ISolver solver = SolverFactory.newLight();
-
-        try {
-            solver.addClause(null);
-        } catch (ContradictionException e) {
-            e.printStackTrace();
-        }
-
+        /*
+        Insertion / Deletion
+         */
+        com.uni.ailab.scp.runtime.Runtime.push(null, component);
 
     }
 }
