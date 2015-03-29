@@ -1,6 +1,6 @@
 package com.uni.ailab.scp.policy;
 
-import net.sf.tweety.commons.Formula;
+import orbital.logic.imp.Formula;
 
 /**
  * Created by gabriele on 26/03/15.

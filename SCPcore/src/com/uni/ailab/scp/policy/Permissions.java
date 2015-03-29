@@ -5,8 +5,22 @@ package com.uni.ailab.scp.policy;
  */
 public class Permissions {
 
-    public final static String INTERNET = "android.permission.INTERNET";
-    public final static String BLUETOOTH = "android.permission.BLUETOOTH";
-    public final static String CAMERA = "android.permission.CAMERA";
+    public final static String[] PERMISSIONS = new String[] {
+            "android.permission.INTERNET",
+            "android.permission.BLUETOOTH",
+            "android.permission.CAMERA"
+    };
 
+    public static String getPermission(int enc) {
+        return PERMISSIONS[enc - 1];
+    }
+
+    public static int getEncoding(String p) {
+        for (int i = 0; i < PERMISSIONS.length; i++) {
+            if(PERMISSIONS[i].compareTo(p) == 0)
+                return i+1;
+        }
+        // Not found
+        return 0;
+    }
 }
