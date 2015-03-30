@@ -1,7 +1,6 @@
 package com.uni.ailab.scp.policy;
 
-import orbital.logic.imp.Formula;
-
+import com.uni.ailab.scp.plogic.Formula;
 /**
  * Created by gabriele on 26/03/15.
  */
