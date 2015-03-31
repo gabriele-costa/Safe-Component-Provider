@@ -1,19 +1,17 @@
 package com.uni.ailab.scp.runtime;
 
+import com.uni.ailab.scp.cnf.Clause;
+import com.uni.ailab.scp.cnf.Literal;
 import com.uni.ailab.scp.policy.Permissions;
 import com.uni.ailab.scp.policy.Policy;
 
-import org.sat4j.core.Vec;
-import org.sat4j.core.VecInt;
 import org.sat4j.specs.IVec;
 import org.sat4j.specs.IVecInt;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
-import orbital.logic.imp.Formula;
-import orbital.logic.imp.Logic;
-import orbital.logic.sign.SymbolBase;
-import orbital.moon.logic.ClassicalLogic;
+import com.uni.ailab.scp.cnf.Formula;
 
 /**
  * Created by gabriele on 26/03/15.
@@ -27,9 +25,29 @@ public class Configuration extends ArrayList<Stack> {
             String[][] PS = this.get(i).getPermissions();
         }
 
-        // TODO: partially implemented
+        Vector<Formula> formulas = new Vector<Formula>();
+
+        Vector<Clause> claij = new Vector<Clause>();
+        for(int i = 0; i < PC.length; i++) {
+            Vector<Literal> lit3 = new Vector<Literal>();
+
+            for(int j = 0; j < PC[i].length; j++) {
+                Vector<Literal> lit2 = new Vector<Literal>();
+
+                for (String pij : PC[i][j]) {
+                    claij.add(new Clause(new Literal(permToVar(pij, i, j), false)));
+                    lit2.add(new Literal(permToVar(pij, i, j), false));
+                    lit3.add(new Literal(permToVar(pij, i, 0), false));
+                }
+                Formula f = Formula.fromClause(new Clause(lit2));
+
+                for(String pi : Permissions.PERMISSIONS)
+                    formulas.add(Formula.iff(f, Formula.lit(permToVar(pi, i, 0))));
+            }
+        }
 
         // encode eq 1
+        formulas.add(Formula.fromClause(claij));
 
         // encode eq 2
 
@@ -78,33 +96,22 @@ public class Configuration extends ArrayList<Stack> {
         }
     }
 
-    private int encToVar(int enc, int s, int f) {
+    private String permToVar(String enc, int s, int f) {
         if(s == 0)
             return enc;
         else if(f == 0)
-            return (Permissions.PERMISSIONS.length * (s-1)) + enc - 1;
+            return enc + "_" + s;
         else {
-            int base = Permissions.PERMISSIONS.length * (this.size());
-            for (int i = 0; i < s-1; i++) {
-                base += Permissions.PERMISSIONS.length * this.get(i).size();
-            }
-            return base + enc - 1;
+            return enc + "_" + s + "_" + f;
         }
     }
 
-    private int varToEnc(int var) {
-        if(var < Permissions.PERMISSIONS.length)
-            return var;
-        else if(var < Permissions.PERMISSIONS.length * this.size())
-            return (var % Permissions.PERMISSIONS.length) + 1;
-        else {
-            var -= (Permissions.PERMISSIONS.length * this.size());
-            for (int i = 0; var > Permissions.PERMISSIONS.length; i++) {
-                var -= Permissions.PERMISSIONS.length * this.get(i).size();
-            }
-
-            return var;
+    private String varToPerm(String var) {
+        if(var.contains("_")) {
+            return var.substring(0, var.indexOf("_"));
         }
+        else
+            return var;
     }
 
 }

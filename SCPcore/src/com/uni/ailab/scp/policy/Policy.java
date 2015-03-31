@@ -1,6 +1,6 @@
 package com.uni.ailab.scp.policy;
 
-import com.uni.ailab.scp.plogic.Formula;
+import com.uni.ailab.scp.cnf.Formula;
 /**
  * Created by gabriele on 26/03/15.
  */
