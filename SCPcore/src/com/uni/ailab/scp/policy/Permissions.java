@@ -6,9 +6,9 @@ package com.uni.ailab.scp.policy;
 public class Permissions {
 
     public final static String[] PERMISSIONS = new String[] {
-            "android.permission.INTERNET",
-            "android.permission.BLUETOOTH",
-            "android.permission.CAMERA"
+            "a.p.INTERNET",
+            "a.p.BLUETOOTH",
+            "a.p.CAMERA"
     };
 
 }
