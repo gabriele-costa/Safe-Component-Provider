@@ -106,4 +106,12 @@ public class Formula {
         }
         return result;
     }
+
+    public Formula rename(String suffix) {
+        Vector<Clause> vc = new Vector<Clause>();
+        for(Clause c : clauses) {
+            vc.add(c.rename(suffix));
+        }
+        return new Formula(vc);
+    }
 }

@@ -17,13 +17,20 @@ public class Literal {
     }
 
     public int toDIMACS(Map<String, Integer> M) {
+        if(!M.containsKey(name))
+            M.put(name, M.size()+1);
+
         int e = M.get(name);
         return ((neg) ? -e : e);
     }
 
     @Override
     public boolean equals(Object o) {
+        if(!(o instanceof Literal))
+            return false;
 
+        Literal l = (Literal) o;
+        return (l.name.compareTo(name) == 0) && (l.neg == neg);
     }
 
 }

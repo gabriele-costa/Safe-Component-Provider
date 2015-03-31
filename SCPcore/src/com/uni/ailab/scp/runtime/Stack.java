@@ -1,9 +1,10 @@
 package com.uni.ailab.scp.runtime;
 
+import com.uni.ailab.scp.cnf.Formula;
 import com.uni.ailab.scp.policy.Policy;
 import com.uni.ailab.scp.policy.Scope;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 /**
  * Created by gabriele on 26/03/15.
@@ -40,38 +41,32 @@ public class Stack extends java.util.Stack<Frame> {
         return perm;
     }
 
-    public ArrayList<Policy> getDirect() {
-        ArrayList<Policy> Phi = new ArrayList<Policy>();
+    public Vector<Formula> getDirect() {
+        Vector<Formula> Phi = new Vector<Formula>();
         for(Frame f : this) {
-            for(Policy p : f.policies)
-                if(p.scope == Scope.DIRECT)
-                    Phi.add(p);
+            Phi.addAll(f.getScopePolicies(Scope.DIRECT));
         }
         return Phi;
     }
 
-    public ArrayList<Policy> getLocal() {
-        ArrayList<Policy> Phi = new ArrayList<Policy>();
+    public Vector<Formula> getLocal() {
+        Vector<Formula> Phi = new Vector<Formula>();
         for(Frame f : this) {
-            for(Policy p : f.policies)
-                if(p.scope == Scope.LOCAL)
-                    Phi.add(p);
+            Phi.addAll(f.getScopePolicies(Scope.LOCAL));
         }
         return Phi;
     }
 
-    public ArrayList<Policy> getGlobal() {
-        ArrayList<Policy> Phi = new ArrayList<Policy>();
+    public Vector<Formula> getGlobal() {
+        Vector<Formula> Phi = new Vector<Formula>();
         for(Frame f : this) {
-            for(Policy p : f.policies)
-                if(p.scope == Scope.GLOBAL)
-                    Phi.add(p);
+            Phi.addAll(f.getScopePolicies(Scope.GLOBAL));
         }
         return Phi;
     }
 
-    public ArrayList<Policy> getSticky() {
-        ArrayList<Policy> Phi = new ArrayList<Policy>();
+    public Vector<Policy> getSticky() {
+        Vector<Policy> Phi = new Vector<Policy>();
         for(Frame f : this) {
             for(Policy p : f.policies)
                 if(p.sticky)

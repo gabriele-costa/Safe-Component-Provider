@@ -33,4 +33,12 @@ public class Clause {
         }
         return result;
     }
+
+    public Clause rename(String suffix) {
+        Vector<Literal> vl = new Vector<Literal>();
+        for(Literal l : literals) {
+            vl.add(new Literal(l.name + suffix, l.neg));
+        }
+        return new Clause(vl);
+    }
 }
