@@ -48,15 +48,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public String getQuery(String action, Uri data) {
+        return "SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_ACTION +" = "+ action;
+    }
+
+    public Cursor doQuery(String query) {
+
+        SQLiteDatabase database = getReadableDatabase();
+
+        // TODO: should check Uri scheme
+        return database.rawQuery(query, null);
+    }
+
     public Cursor getReceivers(String action, Uri data) {
         SQLiteDatabase database = getReadableDatabase();
 
-        Cursor cursor = database.query(TABLE_COMPONENTS,
-                new String[] {COLUMN_ID, COLUMN_NAME, COLUMN_PERMISSIONS, COLUMN_POLICIES},
-                null, new String[] {COLUMN_ACTION +" = "+action}, null, null, null);
-
-
         // TODO: should check Uri scheme
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_ACTION +" = "+ action, null);
 
         return cursor;
     }

@@ -19,16 +19,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 
+import com.uni.ailab.scp.gui.ComponentCursorAdapter;
+import com.uni.ailab.scp.gui.ReceiverChoiceActivity;
 
-public class ScpPublicReceiver extends BroadcastReceiver
+
+public class ScpReceiver extends BroadcastReceiver
 {
 
     private static SQLiteHelper dbHelper;
     private static SQLiteDatabase database;
 
-	public ScpPublicReceiver()
+	public ScpReceiver()
     { }
 
 	@Override
@@ -49,12 +53,23 @@ public class ScpPublicReceiver extends BroadcastReceiver
          */
         String component = intent.getStringExtra("scp.sender");
         String action = intent.getStringExtra("scp.action");
+        String mode = intent.getStringExtra("scp.mode");
         Uri data = intent.getData();
 
         /*
         Retrieve receiver(s)
          */
-        Cursor receivers = dbHelper.getReceivers(action, data);
+        if(mode.compareTo("broadcast") == 0) {
+            // Retrieve list and ask user if needed
+            String query = dbHelper.getQuery(action, data);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setClass(context, ReceiverChoiceActivity.class);
+            i.putExtra("scp.query", query);
+            context.startActivity(i);
+        }
+        else {
+            // TODO NYI
+        }
 
         /*
         Insertion / Deletion
