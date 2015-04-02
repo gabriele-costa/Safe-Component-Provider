@@ -85,28 +85,26 @@ public class ScpContext extends Context
     }
 
     @Override
-    public ClassLoader getClassLoader() {
-        return null;
-    }
+    public ClassLoader getClassLoader() { return context.getClassLoader(); }
 
     @Override
     public String getPackageName() {
-        return null;
+        return context.getPackageName();
     }
 
     @Override
     public ApplicationInfo getApplicationInfo() {
-        return null;
+        return context.getApplicationInfo();
     }
 
     @Override
     public String getPackageResourcePath() {
-        return null;
+        return context.getPackageResourcePath();
     }
 
     @Override
     public String getPackageCodePath() {
-        return null;
+        return context.getPackageCodePath();
     }
 
     @Override
