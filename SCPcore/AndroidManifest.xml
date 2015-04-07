@@ -12,31 +12,6 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
-        <provider
-            android:name=".provider.ScpProvider"
-            android:authorities="com.uni.ailab.scp.provider"
-            android:exported="true" >
-        </provider>
-
-        <!--
-             <service
-            android:name="com.uni.ailab.scp.service.ScpService"
-            android:exported="true"
-            tools:ignore="ExportedService" />
-        -->
-        <receiver android:name=".receiver.ScpPublicReceiver" >
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_FULLY_REMOVED" />
-                <action android:name="android.intent.action.PACKAGE_CHANGED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="TESTSCP" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name=".MainActivity"
@@ -49,10 +24,13 @@
         </activity>
 
         <receiver android:name=".receiver.ScpReceiver" >
+            <intent-filter>
+                <action android:name="TESTSCP" />
+            </intent-filter>
         </receiver>
 
         <activity
-            android:name=".MainactivityActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_mainactivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
