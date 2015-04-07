@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <provider
-            android:name="com.uni.ailab.scp.provider.ScpProvider"
+            android:name=".provider.ScpProvider"
             android:authorities="com.uni.ailab.scp.provider"
             android:exported="true" >
         </provider>
@@ -39,8 +39,21 @@
         </receiver>
 
         <activity
-            android:name="com.uni.ailab.scp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_main" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".receiver.ScpReceiver" >
+        </receiver>
+
+        <activity
+            android:name=".MainactivityActivity"
+            android:label="@string/title_activity_mainactivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

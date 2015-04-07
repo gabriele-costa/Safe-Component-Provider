@@ -32,5 +32,20 @@ public class Literal {
         Literal l = (Literal) o;
         return (l.name.compareTo(name) == 0) && (l.neg == neg);
     }
+    
+    public static Literal parse(String s) {
+    	if(s.startsWith("!"))
+    		return new Literal(s.substring(1), true);
+    	else
+    		return new Literal(s, false);
+    }
+    
+    @Override
+    public String toString() {
+    	if(neg)
+    		return "!" + name;
+    	else
+    		return name;
+    }
 
 }

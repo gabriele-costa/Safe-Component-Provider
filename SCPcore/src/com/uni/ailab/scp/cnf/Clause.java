@@ -41,4 +41,23 @@ public class Clause {
         }
         return new Clause(vl);
     }
+    
+    public static Clause parse(String s) {
+    	s = s.substring(s.indexOf("[") + 1, s.lastIndexOf("]"));
+    	String[] slit = s.split(",");
+    	Literal[] lit = new Literal[slit.length];
+    	for(int i = 0; i < slit.length; i++) {
+    		lit[i] = Literal.parse(slit[i]);
+    	}
+    	return new Clause(lit);
+    }
+    
+    @Override
+    public String toString() {
+    	String s = "[";
+    	for(Literal l : literals) {
+    		s += l.toString() + ",";
+    	}
+    	return s.substring(0, s.lastIndexOf(",")) + "]";
+    }
 }

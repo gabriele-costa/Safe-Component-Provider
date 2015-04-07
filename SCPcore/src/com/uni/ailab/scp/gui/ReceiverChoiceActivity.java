@@ -15,7 +15,7 @@ import com.uni.ailab.scp.receiver.SQLiteHelper;
  * Created by gabriele on 01/04/15.
  */
 public class ReceiverChoiceActivity extends Activity {
-
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +44,7 @@ public class ReceiverChoiceActivity extends Activity {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Cursor cursor = (Cursor) cListView.getItemAtPosition(position);
+                    Object o = cListView.getItemAtPosition(position);
 
 
                 }

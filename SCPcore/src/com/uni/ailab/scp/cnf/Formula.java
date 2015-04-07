@@ -114,4 +114,28 @@ public class Formula {
         }
         return new Formula(vc);
     }
+    
+    public static Formula parse(String s) {
+    	s = s.substring(s.indexOf("{") + 1, s.lastIndexOf("}"));
+    	
+    	String[] scla = s.split(";");
+    	Vector<Clause> vec = new Vector<Clause>();
+    	for(int i = 0; i < scla.length; i++) {
+    		vec.add(Clause.parse(scla[i]));
+    	}
+    	
+    	return new Formula(vec);
+    	
+    }
+    
+    @Override
+    public String toString() {
+    	String s = "{";
+    	
+    	for(Clause c : clauses) {
+    		s += c.toString() + ";";
+    	}
+    	
+    	return s.substring(0, s.lastIndexOf(";")) + "}";
+    }
 }

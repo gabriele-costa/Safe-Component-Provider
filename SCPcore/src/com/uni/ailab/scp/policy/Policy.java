@@ -15,5 +15,19 @@ public class Policy {
         scope = s;
         formula = f;
     }
-
+    
+    public String toString() {
+    	String s = "";
+    	
+    	switch (scope) {
+    	case DIRECT:
+    		s = "D";
+    	case LOCAL: 
+    		s = "L";
+    	case GLOBAL: 
+    		s = "G";
+    	}
+    	
+    	 return s + formula.toString();
+    }
 }
