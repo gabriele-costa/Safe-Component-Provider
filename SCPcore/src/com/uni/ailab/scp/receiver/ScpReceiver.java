@@ -1,28 +1,11 @@
 package com.uni.ailab.scp.receiver;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-
-import android.app.Activity;
-import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.pm.ComponentInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ServiceInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.pm.ProviderInfo;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 
-import com.uni.ailab.scp.gui.ComponentCursorAdapter;
 import com.uni.ailab.scp.gui.ReceiverChoiceActivity;
 
 
@@ -30,8 +13,7 @@ public class ScpReceiver extends BroadcastReceiver
 {
 
     private static SQLiteHelper dbHelper;
-    private static SQLiteDatabase database;
-
+    
 	public ScpReceiver()
     { }
 
@@ -62,11 +44,13 @@ public class ScpReceiver extends BroadcastReceiver
         if(mode.compareTo("broadcast") == 0) {
             // Retrieve list and ask user if needed
             String query = dbHelper.getQuery(type, data);
-            Intent i = new Intent();
+            Intent i = new Intent(context, ReceiverChoiceActivity.class);
             i.setAction(Intent.ACTION_VIEW);
-            i.setClass(context, ReceiverChoiceActivity.class);
+            //i.setClassName("com.uni.ailab.scp", ".gui.ReceiverChoiceActivity");
+            //i.setComponent(new ComponentName(context, ReceiverChoiceActivity.class));
             i.putExtra("scp.query", query);
             i.putExtra("scp.caller", component);
+            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
         }
         else {

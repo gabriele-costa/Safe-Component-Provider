@@ -28,6 +28,7 @@
                 <action android:name="TESTSCP" />
             </intent-filter>
         </receiver>
+        <activity android:name=".gui.ReceiverChoiceActivity" android:exported="false" android:enabled="true"></activity>
     </application>
 
     <style>

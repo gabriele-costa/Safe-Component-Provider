@@ -42,22 +42,23 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        database.execSQL(DATABASE_CREATE);
+    	
+    	database.execSQL(DATABASE_CREATE);
         
         /*
          * TEST: fill DB with example components
          */
-        this.insertComponent("MainActivity", "Activity", new Policy[0], new String[0]);
+        this.insertComponent("MainActivity", "Activity", new Policy[0], new String[0], database);
         this.insertComponent("LoginActivity", "Activity", 
         		new Policy[] {new Policy(Scope.GLOBAL, 
         				Formula.not(Formula.or(Formula.lit(Permissions.MIC), Formula.lit(Permissions.CAM))), false)}, 
-        				new String[0]);
+        				new String[0], database);
         this.insertComponent("ContactPayRec.", "BroadcastReceiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, Formula.imply(Formula.not(Formula.lit(Permissions.APP)), Formula.lit(Permissions.UAP)), false),
         		new Policy(Scope.LOCAL, Formula.and(Formula.lit(Permissions.RCP), Formula.lit(Permissions.GAP)), false)
         },
-        		new String[0]);
+        		new String[0], database);
         this.insertComponent("BalanceActivity", "Activity", 
         		new Policy[] {
         		new Policy(Scope.LOCAL, Formula.imply(
@@ -65,13 +66,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         				Formula.not(Formula.or(Formula.or(Formula.lit(Permissions.NET), Formula.lit(Permissions.WSD)),
         						Formula.lit(Permissions.BTT)))), 
         				true)
-        }, new String[0]);
-        this.insertComponent("PaymentActivity", "Activity", new Policy[0], new String[0]);
+        }, new String[0], database);
+        this.insertComponent("PaymentActivity", "Activity", new Policy[0], new String[0], database);
         this.insertComponent("NormalPayRec.", "BroadcastReceiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, Formula.and(Formula.lit(Permissions.NPP), Formula.lit(Permissions.UAP)), false)
         },
-        		new String[0]);
+        		new String[0], database);
         this.insertComponent("MicroPayRec.", "BroadcastReceiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, 
@@ -79,13 +80,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         						Formula.or(Formula.lit(Permissions.UAP), Formula.lit(Permissions.APP))), 
         						false)
         },
-        		new String[0]);
-        this.insertComponent("ConnectionSer.", "Service", new Policy[0], new String[] {Permissions.NET, Permissions.ACP});
-        this.insertComponent("HistoryProvider", "Provider", new Policy[0], new String[] {Permissions.RSD, Permissions.WSD, Permissions.ACP});
+        		new String[0], database);
+        this.insertComponent("ConnectionSer.", "Service", new Policy[0], new String[] {Permissions.NET, Permissions.ACP},database);
+        this.insertComponent("HistoryProvider", "Provider", new Policy[0], new String[] {Permissions.RSD, Permissions.WSD, Permissions.ACP}, database);
     }
     
-    public void insertComponent(String name, String type, Policy[] policies, String[] permissions) {
-    	SQLiteDatabase database = this.getWritableDatabase(); 
+    public void insertComponent(String name, String type, Policy[] policies, String[] permissions, SQLiteDatabase database) {
     	
     	String pol = formatPolicies(policies);
     	String per = formatPermissions(permissions);
@@ -97,7 +97,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     	values.put(COLUMN_PERMISSIONS, per);
     	
     	database.insert(TABLE_COMPONENTS, null, values); 
-    	database.close();
     }
 
     private String formatPolicies(Policy[] policies) {
@@ -125,23 +124,19 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String getQuery(String action, Uri data) {
-        return "SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_ACTION +" = "+ action;
+    public String getQuery(String type, Uri data) {
+        return "SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = '"+ type + "'";
     }
 
     public Cursor doQuery(String query) {
-
-        SQLiteDatabase database = getReadableDatabase();
-
         // TODO: should check Uri scheme
-        return database.rawQuery(query, null);
+        return this.getReadableDatabase().rawQuery(query, null);
     }
 
     public Cursor getReceivers(String type, Uri data) {
-        SQLiteDatabase database = getReadableDatabase();
 
         // TODO: should check Uri scheme
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = "+ type, null);
+        Cursor cursor = this.getReadableDatabase().rawQuery("SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = '"+ type + "'", null);
 
         return cursor;
     }
