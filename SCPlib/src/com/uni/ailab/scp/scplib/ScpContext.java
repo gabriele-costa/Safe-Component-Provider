@@ -25,8 +25,6 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.view.Display;
 
-import com.uni.ailab.scp.receiver.ScpReceiver;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -296,7 +294,8 @@ public class ScpContext extends Context
 
     public void sendBroadcast(ScpIntent intent) {
         intent.putExtra(INTENT_MODE, "broadcast");
-        intent.setClass(this.context, ScpReceiver.class);
+        //intent.setComponent(new ComponentName("com.uni.ailab.scp", ".receiver.ScpReceiver"));
+        context.sendBroadcast(intent);
     }
 
     @Override
