@@ -137,11 +137,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return database.rawQuery(query, null);
     }
 
-    public Cursor getReceivers(String action, Uri data) {
+    public Cursor getReceivers(String type, Uri data) {
         SQLiteDatabase database = getReadableDatabase();
 
         // TODO: should check Uri scheme
-        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_ACTION +" = "+ action, null);
+        Cursor cursor = database.rawQuery("SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = "+ type, null);
 
         return cursor;
     }

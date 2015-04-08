@@ -21,6 +21,7 @@ public class ReceiverChoiceActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         Intent intent = getIntent();
+        final String component = intent.getStringExtra("scp.caller");
         SQLiteHelper dbHelper = new SQLiteHelper(getApplicationContext());
         Cursor cursor = dbHelper.doQuery(intent.getStringExtra("scp.query"));
 
@@ -46,7 +47,7 @@ public class ReceiverChoiceActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Object o = cListView.getItemAtPosition(position);
 
-
+                    com.uni.ailab.scp.runtime.Runtime.push(null, component);
                 }
 
             });
