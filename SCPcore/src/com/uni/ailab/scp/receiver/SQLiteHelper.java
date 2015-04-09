@@ -1,9 +1,13 @@
 package com.uni.ailab.scp.receiver;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 import com.uni.ailab.scp.cnf.Formula;
 import com.uni.ailab.scp.policy.Permissions;
 import com.uni.ailab.scp.policy.Policy;
 import com.uni.ailab.scp.policy.Scope;
+import com.uni.ailab.scp.runtime.Frame;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -106,6 +110,20 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 		}
 		return s;
 	}
+    
+    private Policy[] parsePolicies(String s) {
+    	
+    	if(s.compareTo("") == 0)
+    		return new Policy[0];
+    	
+		String[] str = s.split(":");
+    	Policy[] pol = new Policy[str.length];
+    	
+		for(int i = 0; i < str.length; i++) {
+			pol[i] = Policy.parse(str[i]);
+		}
+		return pol;
+	}
 
 	private String formatPermissions(String[] permissions) {
 		String s = "";
@@ -113,6 +131,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 			s += permissions[i].toString() + ":";
 		}
 		return s;
+	}
+	
+	private String[] parsePermissions(String s) {
+		
+		if(s.compareTo("") == 0)
+			return new String[0];
+		else 
+			return s.split(":");
 	}
 
 	@Override
@@ -128,9 +154,30 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return "SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = '"+ type + "'";
     }
 
-    public Cursor doQuery(String query) {
+    public Cursor doCursorQuery(String query) {
         // TODO: should check Uri scheme
         return this.getReadableDatabase().rawQuery(query, null);
+    }
+    
+    public Frame[] doQuery(String query) {
+        Cursor c = doCursorQuery(query);
+        Frame[] v = new Frame[c.getCount()];
+        
+        for (int i = 0; i < c.getCount(); i++) {
+    		c.moveToPosition(i);
+    		v[i] = new Frame();
+    		v[i].component = c.getString(1);
+    		
+    		Policy[] pol = parsePolicies(c.getString(3));
+    		Vector<Policy> pVec = new Vector<Policy>();
+    		pVec.addAll(Arrays.asList(pol));
+    		v[i].policies = pVec;
+    		
+    		String[] perm = parsePermissions(c.getString(4));
+    		v[i].permissions = perm;
+		}
+        
+        return v;
     }
 
     public Cursor getReceivers(String type, Uri data) {

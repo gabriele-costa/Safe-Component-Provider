@@ -28,7 +28,7 @@ public class Configuration extends ArrayList<Stack> {
 
         String[][][] PC = new String[conf.size()][][];
         for (int i = 0; i < conf.size(); i++) {
-            String[][] PS = conf.get(i).getPermissions();
+            PC[i] = conf.get(i).getPermissions();
         }
 
         Vector<Formula> formulas = new Vector<Formula>();
@@ -100,7 +100,7 @@ public class Configuration extends ArrayList<Stack> {
         }
 
         if(formulas.isEmpty())
-            return null;
+        	return new Vec<IVecInt>();
 
         Formula g = formulas.get(0);
         for (int i = 1; i < formulas.size(); i++) {
@@ -140,7 +140,7 @@ public class Configuration extends ArrayList<Stack> {
         }
 
         if(index < 0)
-            return null;
+        	return new Vec<IVecInt>();
 
         IVec<IVecInt> spec = encodePermissions(target);
         IVec<IVecInt> pol = encodePolicies(target, index);
@@ -159,24 +159,42 @@ public class Configuration extends ArrayList<Stack> {
         M = new TreeMap<String, Integer>();
 
         ArrayList<Stack> target = new ArrayList<Stack>();
-
+        
         int index = -1;
-
-        for(int i = 0; i < this.size(); i++) {
-            Stack S = this.get(i);
-            if(S.peek().component.compareTo(component) == 0) {
-                index = i;
-                Stack Sp = new Stack();
-                Sp.addAll(S);
-                S.push(f);
-                target.add(Sp);
-            }
-            else
-                target.add(S);
+        
+        Stack Sn = new Stack();
+        
+        if(alloc) {
+        	for(int i = 0; i < this.size(); i++) {
+	            Stack S = this.get(i);
+	            Stack Sp = new Stack();
+	            Sp.addAll(S);
+	            target.add(Sp);
+	            
+	            if(S.peek().component.compareTo(component) == 0) {
+	            	Sn.addAll(S);
+	            }
+	        }
+            index = target.size();
+            Sn.push(f);
+            target.add(Sn);    	
         }
-
+        else {
+	
+	        for(int i = 0; i < this.size(); i++) {
+	            Stack S = this.get(i);
+	            if(S.peek().component.compareTo(component) == 0) {
+	                index = i;
+	                Stack Sp = new Stack();
+	                Sp.addAll(S);
+	                S.push(f);
+	                target.add(Sp);
+	            }
+	        }
+        }
+        
         if(index < 0)
-            return null;
+            return new Vec<IVecInt>();
 
         IVec<IVecInt> spec = encodePermissions(target);
         IVec<IVecInt> pol = encodePolicies(target, index);

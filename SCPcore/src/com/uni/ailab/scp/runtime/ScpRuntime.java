@@ -14,11 +14,11 @@ import org.sat4j.specs.IVec;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.TimeoutException;
 
-public class Runtime {
+public class ScpRuntime {
 
     private static Configuration configuration = new Configuration();
-
-    public static boolean pop(String component) {
+    
+    public static boolean canPop(String component) {
 
         ISolver solver = SolverFactory.newLight();
         IVec<IVecInt> clauses = configuration.encodePop(component);
@@ -27,21 +27,20 @@ public class Runtime {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
             if (problem.isSatisfiable()) {
-                configuration.pop(component);
                 return true;
             }
         } catch (ContradictionException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         } catch (TimeoutException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
 
         return false;
     }
 
-    public static boolean alloc(Frame f, String component) {
+    public static boolean canAlloc(Frame f, String component) {
 
         ISolver solver = SolverFactory.newLight();
         IVec<IVecInt> clauses = configuration.encodePush(f, component, true);
@@ -50,21 +49,20 @@ public class Runtime {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
             if (problem.isSatisfiable()) {
-                configuration.push(f, component, true);
                 return true;
             }
         } catch (ContradictionException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         } catch (TimeoutException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
 
         return false;
     }
 
-    public static boolean push(Frame f, String component) {
+    public static boolean canPush(Frame f, String component) {
 
         ISolver solver = SolverFactory.newLight();
         IVec<IVecInt> clauses = configuration.encodePush(f, component, false);
@@ -73,18 +71,35 @@ public class Runtime {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
             if (problem.isSatisfiable()) {
-                configuration.push(f, component, false);
                 return true;
             }
         } catch (ContradictionException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         } catch (TimeoutException e) {
-            Log.w(Runtime.class.toString(), e.toString());
+            Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
 
         return false;
+    }
+
+    public static void pop(String component) {
+
+        configuration.pop(component);
+
+    }
+
+    public static void alloc(Frame f, String component) {
+        
+        configuration.push(f, component, true);
+        
+    }
+
+    public static void push(Frame f, String component) {
+
+        configuration.push(f, component, false);
+        
     }
 
 }
