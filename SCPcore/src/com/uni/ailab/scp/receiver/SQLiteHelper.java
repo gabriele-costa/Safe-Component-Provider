@@ -150,7 +150,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public String getQuery(String type, Uri data) {
+    public String getQuery(String type, Uri data, String action) {
         return "SELECT * FROM " + TABLE_COMPONENTS +" WHERE " + COLUMN_TYPE +" = '"+ type + "'";
     }
 

@@ -14,6 +14,8 @@ import org.sat4j.specs.IVec;
 import org.sat4j.specs.IVecInt;
 import org.sat4j.specs.TimeoutException;
 
+import com.uni.ailab.scp.log.Logger;
+
 public class ScpRuntime {
 
     private static Configuration configuration = new Configuration();
@@ -26,8 +28,16 @@ public class ScpRuntime {
         try {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
+            
+            Logger.log("CHECKING SAT at " + System.currentTimeMillis());
+            
             if (problem.isSatisfiable()) {
+            	Logger.log("SAT at " + System.currentTimeMillis());
                 return true;
+            }
+            else {
+            	Logger.log("UNSAT at " + System.currentTimeMillis());
+            	return false;
             }
         } catch (ContradictionException e) {
             Log.w(ScpRuntime.class.toString(), e.toString());
@@ -36,8 +46,6 @@ public class ScpRuntime {
             Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
-
-        return false;
     }
 
     public static boolean canAlloc(Frame f, String component) {
@@ -51,6 +59,9 @@ public class ScpRuntime {
             if (problem.isSatisfiable()) {
                 return true;
             }
+            else {
+            	return false;
+            }
         } catch (ContradictionException e) {
             Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
@@ -58,8 +69,6 @@ public class ScpRuntime {
             Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
-
-        return false;
     }
 
     public static boolean canPush(Frame f, String component) {
@@ -73,6 +82,9 @@ public class ScpRuntime {
             if (problem.isSatisfiable()) {
                 return true;
             }
+            else {
+            	return false;
+            }
         } catch (ContradictionException e) {
             Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
@@ -80,8 +92,6 @@ public class ScpRuntime {
             Log.w(ScpRuntime.class.toString(), e.toString());
             return false;
         }
-
-        return false;
     }
 
     public static void pop(String component) {

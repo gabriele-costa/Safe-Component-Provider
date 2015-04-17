@@ -2,6 +2,7 @@ package com.uni.ailab.scp.runtime;
 
 import com.uni.ailab.scp.cnf.Clause;
 import com.uni.ailab.scp.cnf.Literal;
+import com.uni.ailab.scp.log.Logger;
 import com.uni.ailab.scp.policy.Permissions;
 import com.uni.ailab.scp.policy.Policy;
 
@@ -25,6 +26,8 @@ public class Configuration extends ArrayList<Stack> {
     TreeMap<String, Integer> M;
 
     private IVec<IVecInt> encodePermissions(ArrayList<Stack> conf) {
+    	
+    	Logger.log("ENTER encodePermissions() at " + System.currentTimeMillis());
 
         String[][][] PC = new String[conf.size()][][];
         for (int i = 0; i < conf.size(); i++) {
@@ -69,18 +72,24 @@ public class Configuration extends ArrayList<Stack> {
             form = Formula.and(form, formulas.get(i));
 
         int[][] dimacs = form.toDIMACS(M);
+        
+        Logger.log(dimacs, M.size());
 
         IVec<IVecInt> ret = new Vec<IVecInt>();
 
         for (int i = 0; i < dimacs.length; i++) {
             ret.push(new VecInt(dimacs[i]));
         }
+        
+        Logger.log("EXIT encodePermissions() at " + System.currentTimeMillis());
 
         return ret;
     }
 
     private IVec<IVecInt> encodePolicies(ArrayList<Stack> conf, int s) {
 
+    	Logger.log("ENTER encodePolicies() at " + System.currentTimeMillis());
+    	
         Vector<Formula> formulas = new Vector<Formula>();
         for (int i = 0; i < conf.size(); i++) {
             Stack Si = conf.get(i);
@@ -108,16 +117,22 @@ public class Configuration extends ArrayList<Stack> {
         }
 
         int[][] dimacs = g.toDIMACS(M);
+        
+        Logger.log(dimacs, M.size());
 
         IVec<IVecInt> ret = new Vec<IVecInt>();
         for (int i = 0; i < dimacs.length; i++) {
             ret.push(new VecInt(dimacs[i]));
         }
+        
+        Logger.log("EXIT encodePolicies() at " + System.currentTimeMillis());
 
         return ret;
     }
 
     public IVec<IVecInt> encodePop(String component) {
+    	
+    	Logger.log("ENTER encodePop(" +component+ ") at " + System.currentTimeMillis());
 
         M = new TreeMap<String, Integer>();
 
@@ -148,6 +163,8 @@ public class Configuration extends ArrayList<Stack> {
         for (int i = 0; i < pol.size(); i++) {
             spec.push(pol.get(i));
         }
+        
+        Logger.log("EXIT encodePop(" +component+ ") at " + System.currentTimeMillis());
 
         return spec;
     }
@@ -155,6 +172,8 @@ public class Configuration extends ArrayList<Stack> {
     public IVec<IVecInt> encodePush(Frame f, String component, boolean alloc) {
 
         // TODO: alloc unused
+    	
+    	Logger.log("ENTER encodePush(" + f.toString() + ", " +component+ ", " + alloc + ") at " + System.currentTimeMillis());
 
         M = new TreeMap<String, Integer>();
 
@@ -202,6 +221,8 @@ public class Configuration extends ArrayList<Stack> {
         for (int i = 0; i < pol.size(); i++) {
             spec.push(pol.get(i));
         }
+        
+        Logger.log("EXIT encodePush(" + f.toString() + ", " +component+ ", " + alloc + ") at " + System.currentTimeMillis());
 
         return spec;
     }

@@ -36,6 +36,7 @@ public class ScpReceiver extends BroadcastReceiver
         String component = intent.getStringExtra("scp.caller");
         String type = intent.getStringExtra("scp.type");
         String mode = intent.getStringExtra("scp.mode");
+        String action = intent.getStringExtra("scp.action");
         Uri data = intent.getData();
 
         /*
@@ -43,7 +44,7 @@ public class ScpReceiver extends BroadcastReceiver
          */
         if(mode.compareTo("broadcast") == 0) {
             // Retrieve list and ask user if needed
-            String query = dbHelper.getQuery(type, data);
+            String query = dbHelper.getQuery(type, data, action);
             Intent i = new Intent(context, ReceiverChoiceActivity.class);
             i.setAction(Intent.ACTION_VIEW);
             //i.setClassName("com.uni.ailab.scp", ".gui.ReceiverChoiceActivity");
@@ -56,10 +57,6 @@ public class ScpReceiver extends BroadcastReceiver
         else {
             // TODO NYI
         }
-
-        /*
-        Insertion / Deletion
-         */
         
 
     }

@@ -1,22 +1,13 @@
 package com.uni.ailab.scp.scplib;
 
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.IBinder;
-import android.os.Message;
-import android.os.Messenger;
-import android.os.RemoteException;
-import android.util.Log;
-import android.widget.Toast;
 
 public class ScpIntent extends Intent
 {
+	public static final String ACTION_SCP = "it.unige.scp.action";
 
     public ScpIntent() {
         super();

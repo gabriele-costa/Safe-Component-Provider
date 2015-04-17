@@ -70,6 +70,8 @@ public class ReceiverChoiceActivity extends Activity {
 	                    	break;
 						}
 					}
+                	
+                	finish();
                 }
             });
         }

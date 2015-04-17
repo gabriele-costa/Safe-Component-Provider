@@ -22,4 +22,9 @@ public class Frame {
                 v.add(p.formula);
         return v;
     }
+    
+    @Override
+    public String toString() {
+    	return component;
+    }
 }
