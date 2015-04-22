@@ -66,7 +66,6 @@ public class ReceiverChoiceActivity extends Activity {
 								ScpRuntime.alloc(f, component);
 							else
 								ScpRuntime.push(f, component);
-							
 	                    	break;
 						}
 					}

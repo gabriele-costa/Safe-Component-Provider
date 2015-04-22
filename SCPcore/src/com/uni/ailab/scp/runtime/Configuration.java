@@ -284,5 +284,39 @@ public class Configuration extends ArrayList<Stack> {
         else
             return var;
     }
+    
+    public String[] getStackRoots() {
+    	String[] res = new String[this.size()];
+    	for(int i = 0; i < this.size(); i++) {
+			res[i] = this.get(i).get(0).component;
+		}
+    	return res;
+    }
+    
+    public String[] getStackElements(String root) {
+    	for(int i = 0; i < this.size(); i++) {
+    		if(this.get(i).get(0).component.compareTo(root) == 0) {
+    			String[] res = new String[this.get(i).size()];
+    			for (int j = 0; j < this.get(i).size(); j++) {
+					res[j] = this.get(i).get(j).component;
+				}
+    			return res;
+    		}
+		}
+    	return null;
+    }
+    
+    public Frame getFrame(String root, String comp) {
+    	for(int i = 0; i < this.size(); i++) {
+    		if(this.get(i).get(0).component.compareTo(root) == 0) {
+    			for (int j = 0; j < this.get(i).size(); j++) {
+    				if(this.get(i).get(j).component.compareTo(comp) == 0) {
+    					return this.get(i).get(j);
+    				}
+				}
+    		}
+		}
+    	return null;
+    }
 
 }

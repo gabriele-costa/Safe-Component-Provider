@@ -5,31 +5,40 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        android:minSdkVersion="15"
+        android:targetSdkVersion="22" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
+        
+
+        <receiver
+            android:name=".receiver.ScpReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="it.unige.scp.action" />
+            </intent-filter>
+        </receiver>
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name=".gui.ReceiverChoiceActivity"
+            android:enabled="true"
+            android:exported="false" >
+        </activity>
+        <activity
+            android:name=".FrontActivity"
+            android:label="@string/title_activity_front" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <receiver android:name=".receiver.ScpReceiver" android:exported="true" android:enabled="true">
-            <intent-filter>
-                <action android:name="it.unige.scp.action"/>
-            </intent-filter>
-        </receiver>
-        <activity android:name=".gui.ReceiverChoiceActivity" android:exported="false" android:enabled="true"></activity>
     </application>
 
     <style>

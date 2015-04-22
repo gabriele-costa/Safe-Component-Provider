@@ -111,5 +111,20 @@ public class ScpRuntime {
         configuration.push(f, component, false);
         
     }
+    
+    public static String[] getStackRoots() {
+    	String[] s = configuration.getStackRoots();
+    	Logger.log("Current Roots: " + s.toString());
+    	return s;
+    	
+    }
+    
+    public static String[] getStackElements(String root) {
+    	return configuration.getStackElements(root);
+    }
+    
+    public static Frame getFrame(String root, String comp) {
+    	return configuration.getFrame(root, comp);
+    }
 
 }
