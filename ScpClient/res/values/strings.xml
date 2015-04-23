@@ -4,5 +4,15 @@
     <string name="app_name">ScpClient</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="none">-none-</string>
+    <string name="mainactivity">MainActivity</string>
+    <string name="loginactivity">LoginActivity</string>
+    <string name="contactpayrec">ContactPayRec.</string>
+    <string name="balanceactivity">BalanceActivity</string>
+    <string name="paymentactivity">PaymentActivity</string>
+    <string name="normalpayrec">NormalPayRec.</string>
+    <string name="micropayrec">MicroPayRec.</string>
+    <string name="connectionser">ConnectionSer.</string>
+    <string name="historyprovider">HistoryProvider</string>
 
 </resources>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class MainActivity extends Activity {
 
@@ -18,32 +19,36 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		Button startSA = (Button) findViewById(R.id.buttonSA);
-		Button startSP = (Button) findViewById(R.id.buttonSP);
-		Button startSR = (Button) findViewById(R.id.buttonSR);
-		Button startSS = (Button) findViewById(R.id.buttonSS);
+		Button startSA = (Button) findViewById(R.id.buttonActivity);
+		Button startSP = (Button) findViewById(R.id.buttonProvider);
+		Button startSR = (Button) findViewById(R.id.buttonReceiver);
+		Button startSS = (Button) findViewById(R.id.buttonService);
 		
 		OnClickListener listener = new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				
-				String component = ((EditText) findViewById(R.id.editComponent)).getText().toString();
+				final Spinner componentSpinner = (Spinner) findViewById(R.id.spinner1);
 				
+				String component = componentSpinner.getSelectedItem().toString();
+				if(component.compareTo(getString(R.string.none)) == 0)
+					component = "";
+						
 				switch (v.getId()) {
-				case R.id.buttonSA: {
+				case R.id.buttonActivity: {
 					startScpActivity(v, component);
 					break;
 				}
-				case R.id.buttonSP: {
+				case R.id.buttonProvider: {
 					startScpProvider(v, component);
 					break;
 				}
-				case R.id.buttonSR: {
+				case R.id.buttonReceiver: {
 					startScpReceiver(v, component);
 					break;
 				}
-				case R.id.buttonSS: {
+				case R.id.buttonService: {
 					startScpService(v, component);
 					break;
 				}

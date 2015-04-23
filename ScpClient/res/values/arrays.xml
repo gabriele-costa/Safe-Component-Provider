@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="componentslist">
+        <item >@string/none</item>
+        <item >@string/mainactivity</item>
+        <item >@string/loginactivity</item>
+	    <item >@string/contactpayrec</item>
+	    <item >@string/balanceactivity</item>
+	    <item >@string/paymentactivity</item>
+	    <item >@string/normalpayrec</item>
+	    <item >@string/micropayrec</item>
+	    <item >@string/connectionser</item>
+	    <item >@string/historyprovider</item>
+    </string-array>
+    
+</resources>

@@ -1,9 +1,8 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ScrollView1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="1"
-    android:rowCount="8"
     android:onClick="onStartClick"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -11,53 +10,47 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="it.unige.cseclab.MainActivity" >
 
-    <EditText
-        android:id="@+id/editComponent"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:ems="10" >
+        android:orientation="vertical" 
+        android:entries="@array/componentslist">
 
-        <requestFocus />
-    </EditText>
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.56"
+            android:entries="@array/componentslist" />
 
-    <Button
-        android:id="@+id/buttonSA"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal|bottom"
-        android:layout_marginTop="26dp"
-        android:layout_row="4"
-        android:text="StartActivity" />
+        <Button
+            android:id="@+id/buttonActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.56"
+            android:text="Activity" />
+        
+        <Button
+            android:id="@+id/buttonReceiver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.56"
+            android:text="Receiver" />
+        
+        <Button
+            android:id="@+id/buttonService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.56"
+            android:text="Service" />
+        
+        <Button
+            android:id="@+id/buttonProvider"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.56"
+            android:text="Provider" />
 
-    <Button
-        android:id="@+id/buttonSS"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center"
-        android:layout_marginBottom="39dp"
-        android:layout_row="7"
-        android:text="StartService" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonSP"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center"
-        android:layout_marginBottom="82dp"
-        android:layout_row="6"
-        android:text="StartProvider" />
-
-    <Button
-        android:id="@+id/buttonSR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_row="5"
-        android:text="StartReceiver" />
-
-</GridLayout>
+</ScrollView>
