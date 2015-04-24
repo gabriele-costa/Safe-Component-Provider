@@ -25,30 +25,26 @@
 
         <Button
             android:id="@+id/buttonActivity"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3.56"
             android:text="Activity" />
         
         <Button
             android:id="@+id/buttonReceiver"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3.56"
             android:text="Receiver" />
         
         <Button
             android:id="@+id/buttonService"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3.56"
             android:text="Service" />
         
         <Button
             android:id="@+id/buttonProvider"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3.56"
             android:text="Provider" />
 
     </LinearLayout>
