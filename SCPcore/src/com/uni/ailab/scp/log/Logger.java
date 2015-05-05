@@ -1,5 +1,6 @@
 package com.uni.ailab.scp.log;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,7 +16,10 @@ public class Logger {
 	
 	private static void open() throws IOException {
 		String s = Environment.getExternalStorageDirectory().getCanonicalPath();
-        writer = new PrintWriter(new FileWriter(s+LOG_FILE, true));
+		File log = new File(s+LOG_FILE);
+		if(log.exists())
+			log.delete();
+        writer = new PrintWriter(new FileWriter(log, true));
         open = true;
 	}
 	

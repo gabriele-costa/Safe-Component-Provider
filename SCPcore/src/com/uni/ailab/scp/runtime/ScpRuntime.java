@@ -29,14 +29,15 @@ public class ScpRuntime {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
             
-            Logger.log("CHECKING SAT at " + System.currentTimeMillis());
+            Logger.log("CHECKING SAT pop");
+            long cTime = System.currentTimeMillis();
             
             if (problem.isSatisfiable()) {
-            	Logger.log("SAT at " + System.currentTimeMillis());
+            	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
                 return true;
             }
             else {
-            	Logger.log("UNSAT at " + System.currentTimeMillis());
+            	Logger.log("UNSAT in " + (System.currentTimeMillis() - cTime));
             	return false;
             }
         } catch (ContradictionException e) {
@@ -56,10 +57,16 @@ public class ScpRuntime {
         try {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
+            
+            Logger.log("CHECKING SAT alloc");
+            long cTime = System.currentTimeMillis();
+            
             if (problem.isSatisfiable()) {
+            	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
                 return true;
             }
             else {
+            	Logger.log("UNSAT in " + (System.currentTimeMillis() - cTime));
             	return false;
             }
         } catch (ContradictionException e) {
@@ -79,10 +86,16 @@ public class ScpRuntime {
         try {
             solver.addAllClauses(clauses);
             IProblem problem = solver;
+            
+            Logger.log("CHECKING SAT push");
+            long cTime = System.currentTimeMillis();
+            
             if (problem.isSatisfiable()) {
+            	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
                 return true;
             }
             else {
+            	Logger.log("UNSAT in " + (System.currentTimeMillis() - cTime));
             	return false;
             }
         } catch (ContradictionException e) {
