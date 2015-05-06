@@ -14,5 +14,13 @@
     <string name="micropayrec">MicroPayRec.</string>
     <string name="connectionser">ConnectionSer.</string>
     <string name="historyprovider">HistoryProvider</string>
+    <string name="qrscanneractivity">QRScannerActivity</string>
+    <string name="editoractivity">EditorActivity</string>
+    <string name="doceditoractivity">DocEditorAct.</string>
+    <string name="opendocreceiver">OpenDocRec.</string>
+    <string name="cloudservice">CloudSer.</string>
+    <string name="readeractivity">ReaderActivity</string>
+    <string name="docviewactivity">DocViewAct.</string>
+    <string name="viewdocreceiver">ViewDocRec.</string>
 
 </resources>

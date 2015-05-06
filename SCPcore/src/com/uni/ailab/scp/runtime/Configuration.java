@@ -27,7 +27,8 @@ public class Configuration extends ArrayList<Stack> {
 
     private IVec<IVecInt> encodePermissions(ArrayList<Stack> conf) {
     	
-    	Logger.log("ENTER encodePermissions() at " + System.currentTimeMillis());
+    	long cTime = System.currentTimeMillis();
+    	Logger.log("ENTER encodePermissions()");
 
         String[][][] PC = new String[conf.size()][][];
         for (int i = 0; i < conf.size(); i++) {
@@ -81,14 +82,15 @@ public class Configuration extends ArrayList<Stack> {
             ret.push(new VecInt(dimacs[i]));
         }
         
-        Logger.log("EXIT encodePermissions() at " + System.currentTimeMillis());
+        Logger.log("EXIT encodePermissions() in " + (System.currentTimeMillis() - cTime));
 
         return ret;
     }
 
     private IVec<IVecInt> encodePolicies(ArrayList<Stack> conf, int s) {
 
-    	Logger.log("ENTER encodePolicies() at " + System.currentTimeMillis());
+    	long cTime = System.currentTimeMillis();
+    	Logger.log("ENTER encodePolicies()");
     	
         Vector<Formula> formulas = new Vector<Formula>();
         for (int i = 0; i < conf.size(); i++) {
@@ -125,14 +127,15 @@ public class Configuration extends ArrayList<Stack> {
             ret.push(new VecInt(dimacs[i]));
         }
         
-        Logger.log("EXIT encodePolicies() at " + System.currentTimeMillis());
+        Logger.log("EXIT encodePolicies() in " + (System.currentTimeMillis() - cTime));
 
         return ret;
     }
 
     public IVec<IVecInt> encodePop(String component) {
     	
-    	Logger.log("ENTER encodePop(" +component+ ") at " + System.currentTimeMillis());
+    	long cTime = System.currentTimeMillis();
+    	Logger.log("ENTER encodePop(" +component+ ")");
 
         M = new TreeMap<String, Integer>();
 
@@ -164,7 +167,7 @@ public class Configuration extends ArrayList<Stack> {
             spec.push(pol.get(i));
         }
         
-        Logger.log("EXIT encodePop(" +component+ ") at " + System.currentTimeMillis());
+        Logger.log("EXIT encodePop(" +component+ ") in " + (System.currentTimeMillis() - cTime));
 
         return spec;
     }
@@ -172,8 +175,8 @@ public class Configuration extends ArrayList<Stack> {
     public IVec<IVecInt> encodePush(Frame f, String component, boolean alloc) {
 
         // TODO: alloc unused
-    	
-    	Logger.log("ENTER encodePush(" + f.toString() + ", " +component+ ", " + alloc + ") at " + System.currentTimeMillis());
+    	long cTime = System.currentTimeMillis();
+    	Logger.log("ENTER encodePush(" + f.toString() + ", " +component+ ", " + alloc + ")");
 
         M = new TreeMap<String, Integer>();
 
@@ -206,9 +209,12 @@ public class Configuration extends ArrayList<Stack> {
 	                index = i;
 	                Stack Sp = new Stack();
 	                Sp.addAll(S);
-	                S.push(f);
+	                Sp.push(f);
 	                target.add(Sp);
 	            }
+	            else
+	            	target.add(S);
+	            	
 	        }
         }
         
@@ -222,7 +228,7 @@ public class Configuration extends ArrayList<Stack> {
             spec.push(pol.get(i));
         }
         
-        Logger.log("EXIT encodePush(" + f.toString() + ", " +component+ ", " + alloc + ") at " + System.currentTimeMillis());
+        Logger.log("EXIT encodePush(" + f.toString() + ", " +component+ ", " + alloc + ") in " + (System.currentTimeMillis() - cTime));
 
         return spec;
     }
@@ -250,6 +256,7 @@ public class Configuration extends ArrayList<Stack> {
 
         if(alloc) {
             Stack V = new Stack();
+            V.addAll(S);
             frame.policies.addAll(PSticky);
             V.add(frame);
             this.add(V);
@@ -317,6 +324,16 @@ public class Configuration extends ArrayList<Stack> {
     		}
 		}
     	return null;
+    }
+    
+    public boolean isTopFrame(String component) {
+    	for(int i = 0; i < this.size(); i++) {
+            Stack S = this.get(i);
+            if(S.peek().component.compareTo(component) == 0) {
+                return true;
+            }
+        }
+    	return false;
     }
 
 }

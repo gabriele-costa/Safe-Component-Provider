@@ -11,6 +11,14 @@
 	    <item >@string/micropayrec</item>
 	    <item >@string/connectionser</item>
 	    <item >@string/historyprovider</item>
+	    <item >@string/qrscanneractivity</item>
+	    <item >@string/editoractivity</item>
+	    <item >@string/doceditoractivity</item>
+	    <item >@string/opendocreceiver</item>
+	    <item >@string/cloudservice</item>
+	    <item >@string/readeractivity</item>
+	    <item >@string/docviewactivity</item>
+	    <item >@string/viewdocreceiver</item>
     </string-array>
     
 </resources>

@@ -34,7 +34,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     // Database creation sql statement
     private static final String DATABASE_CREATE = "create table "
             + TABLE_COMPONENTS + "(" +
-            COLUMN_ID + " text primary key, " +
+            COLUMN_ID + " integer primary key autoincrement, " +
             COLUMN_NAME + " text not null, " +
             COLUMN_TYPE + " text not null, " +
             COLUMN_POLICIES + " text, " +
@@ -52,12 +52,14 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         /*
          * TEST: fill DB with example components
          */
+    	
+    	// MaplePay
         this.insertComponent("MainActivity", "Activity", new Policy[0], new String[0], database);
         this.insertComponent("LoginActivity", "Activity", 
         		new Policy[] {new Policy(Scope.GLOBAL, 
         				Formula.not(Formula.or(Formula.lit(Permissions.MIC), Formula.lit(Permissions.CAM))), false)}, 
         				new String[0], database);
-        this.insertComponent("ContactPayRec.", "BroadcastReceiver", 
+        this.insertComponent("ContactPayRec.", "Receiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, Formula.imply(Formula.not(Formula.lit(Permissions.APP)), Formula.lit(Permissions.UAP)), false),
         		new Policy(Scope.LOCAL, Formula.and(Formula.lit(Permissions.RCP), Formula.lit(Permissions.GAP)), false)
@@ -72,12 +74,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         				true)
         }, new String[0], database);
         this.insertComponent("PaymentActivity", "Activity", new Policy[0], new String[0], database);
-        this.insertComponent("NormalPayRec.", "BroadcastReceiver", 
+        this.insertComponent("NormalPayRec.", "Receiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, Formula.and(Formula.lit(Permissions.NPP), Formula.lit(Permissions.UAP)), false)
         },
         		new String[0], database);
-        this.insertComponent("MicroPayRec.", "BroadcastReceiver", 
+        this.insertComponent("MicroPayRec.", "Receiver", 
         		new Policy[] {
         		new Policy(Scope.DIRECT, 
         				Formula.and(Formula.lit(Permissions.MPP), 
@@ -87,6 +89,21 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         		new String[0], database);
         this.insertComponent("ConnectionSer.", "Service", new Policy[0], new String[] {Permissions.NET, Permissions.ACP},database);
         this.insertComponent("HistoryProvider", "Provider", new Policy[0], new String[] {Permissions.RSD, Permissions.WSD, Permissions.ACP}, database);
+        
+        // QRScanner
+        this.insertComponent("QRScannerActivity", "Activity", new Policy[0], new String[] {Permissions.CAM, Permissions.MPP, Permissions.UAP}, database);
+        
+        // FancyEditor
+        this.insertComponent("EditorActivity", "Activity", new Policy[0], new String[] {Permissions.RSD}, database);
+        this.insertComponent("DocEditorAct.", "Activity", new Policy[0], new String[0], database);
+        this.insertComponent("OpenDocRec.", "Receiver", new Policy[0], new String[] {Permissions.RSD}, database);
+        this.insertComponent("CloudSer.", "Service", new Policy[0], new String[] {Permissions.NET}, database);
+        
+        // TamerReader
+        this.insertComponent("ReaderActivity", "Activity", new Policy[0], new String[] {Permissions.RSD}, database);
+        this.insertComponent("DocViewAct.", "Activity", new Policy[0], new String[0], database);
+        this.insertComponent("ViewDocRec.", "Receiver", new Policy[0], new String[] {Permissions.RSD}, database);
+        
     }
     
     public void insertComponent(String name, String type, Policy[] policies, String[] permissions, SQLiteDatabase database) {

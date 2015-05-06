@@ -28,6 +28,7 @@ public class ReceiverChoiceActivity extends Activity {
 
         Intent intent = getIntent();
         final String component = intent.getStringExtra("scp.caller");
+        final String type = intent.getStringExtra("scp.type");
         SQLiteHelper dbHelper = new SQLiteHelper(getApplicationContext());
         final Frame[] frame = dbHelper.doQuery(intent.getStringExtra("scp.query"));
         
@@ -41,6 +42,18 @@ public class ReceiverChoiceActivity extends Activity {
         }
         else if(components.size() == 1) {
             // send intent to component
+        	
+        	for(Frame f : frame) {
+				if(f.component.compareTo(components.get(0)) == 0) {
+					if(component.compareTo("") == 0)
+						ScpRuntime.alloc(f, component);
+					else if(type.compareTo("Service") == 0)
+						ScpRuntime.allocService(f, component);
+					else
+						ScpRuntime.push(f, component);
+                	break;
+				}
+			}
         }
         else {
 

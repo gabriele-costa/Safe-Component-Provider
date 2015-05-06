@@ -4,6 +4,8 @@ package com.uni.ailab.scp.runtime;
  * Created by gabriele on 27/03/15.
  */
 
+import java.util.Arrays;
+
 import android.util.Log;
 
 import org.sat4j.minisat.SolverFactory;
@@ -23,14 +25,23 @@ public class ScpRuntime {
     public static boolean canPop(String component) {
 
         ISolver solver = SolverFactory.newLight();
+        
+        if(!configuration.isTopFrame(component))
+        	return false;
+        
         IVec<IVecInt> clauses = configuration.encodePop(component);
-
+        
+        long cTime = System.currentTimeMillis();
+        int idx = -1;
+        
         try {
-            solver.addAllClauses(clauses);
+        	for(idx = 0; idx < clauses.size(); idx++) {
+                solver.addClause(clauses.get(idx));
+            }
+        	idx = -1;
             IProblem problem = solver;
             
             Logger.log("CHECKING SAT pop");
-            long cTime = System.currentTimeMillis();
             
             if (problem.isSatisfiable()) {
             	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
@@ -41,25 +52,42 @@ public class ScpRuntime {
             	return false;
             }
         } catch (ContradictionException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+        	Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         } catch (TimeoutException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+        	Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         }
+        finally {
+        	for(int i = 0; i < clauses.size(); i++) {
+                Logger.log(clauses.get(i).toString());
+                if(i == idx)
+        			Logger.log("^^^");
+            }
+        }
+        return false;
     }
 
     public static boolean canAlloc(Frame f, String component) {
 
         ISolver solver = SolverFactory.newLight();
+        
+        if(component != null && "".compareTo(component) != 0)
+        	if(!configuration.isTopFrame(component))
+        		return false;
+        
         IVec<IVecInt> clauses = configuration.encodePush(f, component, true);
 
+        long cTime = System.currentTimeMillis();
+        int idx = -1;
+        
         try {
-            solver.addAllClauses(clauses);
+        	for(idx = 0; idx < clauses.size(); idx++) {
+                solver.addClause(clauses.get(idx));
+            }
+        	idx = -1;
             IProblem problem = solver;
             
             Logger.log("CHECKING SAT alloc");
-            long cTime = System.currentTimeMillis();
+            cTime = System.currentTimeMillis();
             
             if (problem.isSatisfiable()) {
             	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
@@ -70,25 +98,42 @@ public class ScpRuntime {
             	return false;
             }
         } catch (ContradictionException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+        	Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         } catch (TimeoutException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+        	Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         }
+        finally {
+        	for(int i = 0; i < clauses.size(); i++) {
+                Logger.log(clauses.get(i).toString());
+                if(i == idx)
+        			Logger.log("^^^");
+            }
+        }
+        return false;
     }
 
     public static boolean canPush(Frame f, String component) {
 
         ISolver solver = SolverFactory.newLight();
+        
+        if(!configuration.isTopFrame(component))
+        	return false;
+        
         IVec<IVecInt> clauses = configuration.encodePush(f, component, false);
 
+        long cTime = System.currentTimeMillis();
+        
+        int idx = -1;
+        
         try {
-            solver.addAllClauses(clauses);
+        	for(idx = 0; idx < clauses.size(); idx++) {
+                solver.addClause(clauses.get(idx));
+            }
+        	idx = -1;
             IProblem problem = solver;
             
             Logger.log("CHECKING SAT push");
-            long cTime = System.currentTimeMillis();
+            cTime = System.currentTimeMillis();
             
             if (problem.isSatisfiable()) {
             	Logger.log("SAT in " + (System.currentTimeMillis() - cTime));
@@ -99,12 +144,18 @@ public class ScpRuntime {
             	return false;
             }
         } catch (ContradictionException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+            Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         } catch (TimeoutException e) {
-            Log.w(ScpRuntime.class.toString(), e.toString());
-            return false;
+        	Logger.log("UNSAT with in "+ (System.currentTimeMillis() - cTime) +" with " + e);
         }
+        finally {
+        	for(int i = 0; i < clauses.size(); i++) {
+                Logger.log(clauses.get(i).toString());
+                if(i == idx)
+        			Logger.log("^^^");
+            }
+        }
+        return false;
     }
 
     public static void pop(String component) {
@@ -125,9 +176,13 @@ public class ScpRuntime {
         
     }
     
+    public static void allocService(Frame f, String component) {
+    	configuration.push(f, component, true);
+    }
+    
     public static String[] getStackRoots() {
     	String[] s = configuration.getStackRoots();
-    	Logger.log("Current Roots: " + s.toString());
+    	Logger.log("Current Roots: " + Arrays.toString(s));
     	return s;
     	
     }

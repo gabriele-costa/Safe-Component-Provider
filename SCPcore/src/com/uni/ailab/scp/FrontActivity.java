@@ -23,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
@@ -74,13 +76,15 @@ public class FrontActivity extends Activity implements
 	}
 
 	public void onSectionAttached(int number) {
-		if(mNavigationDrawerFragment.lDisplayedList != null) {
+		if(mNavigationDrawerFragment.lDisplayedList != null && mNavigationDrawerFragment.lDisplayedList.length > 0) {
 			prepareListView(mNavigationDrawerFragment.lDisplayedList[number-1]);
 			
 			mTitle = mNavigationDrawerFragment.lDisplayedList[number-1];
 			
 			expListView = (ExpandableListView) findViewById(R.id.stackContentELV);
 			listAdapter = new ExpandableListAdapter(this, listDataHeader, listDataChild);
+			
+			expListView.setOnItemLongClickListener(new deleteFrameListener()); 
 			
 			expListView.setAdapter(listAdapter);
 		}
@@ -170,5 +174,21 @@ public class FrontActivity extends Activity implements
 			((FrontActivity) activity).onSectionAttached(getArguments().getInt(
 					ARG_SECTION_NUMBER));
 		}
+	}
+	
+	private class deleteFrameListener implements OnItemLongClickListener {
+
+		@Override
+		public boolean onItemLongClick(AdapterView<?> parent, View view,
+				int position, long id) {
+			
+			if(ScpRuntime.canPop(view.toString())) {
+				expListView.removeViewAt(position);
+				expListView.invalidate();
+			}
+			
+			return true;
+		}
+		
 	}
 }
