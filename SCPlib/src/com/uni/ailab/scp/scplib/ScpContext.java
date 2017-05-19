@@ -31,6 +31,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 public class ScpContext extends Context
 {
@@ -289,7 +290,7 @@ public class ScpContext extends Context
 
     @Override
     public void sendBroadcast(Intent intent) {
-
+        throw new UnsupportedOperationException("NYI");
     }
 
     public void sendBroadcast(ScpIntent intent) {
@@ -300,7 +301,7 @@ public class ScpContext extends Context
 
     @Override
     public void sendBroadcast(Intent intent, String receiverPermission) {
-
+        throw new UnsupportedOperationException("NYI");
     }
 
     @Override
