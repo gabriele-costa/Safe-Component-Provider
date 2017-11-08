@@ -262,6 +262,11 @@ public class ScpContext extends Context
             intent.setClassName("com.uni.ailab.scp.receiver","ScpReceiver");
         }
     }
+    
+    public void startActivity(ScpIntent intent) {
+    	intent.putExtra(INTENT_MODE, "direct");
+        context.sendBroadcast(intent);
+    }
 
     @Override
     public void startActivity(Intent intent, Bundle options) {
@@ -497,5 +502,11 @@ public class ScpContext extends Context
     @Override
     public Context createDisplayContext(Display display) {
         return null;
+    }
+    
+    public void sendRegistrationRequest(ScpIntent intent) {
+        intent.putExtra(INTENT_MODE, "registration");
+        //intent.setComponent(new ComponentName("com.uni.ailab.scp", ".receiver.ScpReceiver"));
+        context.sendBroadcast(intent);
     }
 }

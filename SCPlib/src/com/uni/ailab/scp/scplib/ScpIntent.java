@@ -8,6 +8,8 @@ import android.net.Uri;
 public class ScpIntent extends Intent
 {
 	public static final String ACTION_SCP = "it.unige.scp.action";
+	public static final String ACTION_SCP_POP = "it.unige.scp.action.POP";
+	public static final String ACTION_SCP_CLOSE = "it.unige.scp.action.CLOSE";
 
     public ScpIntent() {
         super();
